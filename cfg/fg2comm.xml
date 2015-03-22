@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+	<generic>
+		<output>
+			<line_separator>newline</line_separator>
+			<var_separator>tab</var_separator>
+ 
+ 			<!--position-->
+			<chunk>
+				<node>/position/altitude-ft</node>
+				<name>altitude</name>
+				<type>float</type>
+				<format>alt=%03.2f</format>
+			</chunk>
+			
+			
+			<chunk>
+				<node>/position/ground-elev-m</node>
+				<name>ground-elev</name>
+				<type>float</type>
+				<format>ground-elev=%03.2f</format>
+			</chunk>
+			
+			<chunk>
+				<node>/position/latitude-deg</node>
+				<name>latitude</name>
+				<type>float</type>
+				<format>lat=%.10f</format>
+			</chunk>
+			 
+			<chunk>
+				<node>/position/longitude-deg</node>
+				<name>longitude</name>
+				<type>float</type>
+				<format>lon=%.10f</format>
+			</chunk>
+ 
+ 			<!--angles-->
+			<chunk>
+				<node>/orientation/roll-deg</node>
+				<name>roll</name>
+				<type>float</type>
+				<format>roll=%03.3f</format>
+			</chunk>
+			
+			<chunk>
+				<node>/orientation/pitch-deg</node>
+				<name>pitch</name>
+				<type>float</type>
+				<format>pitch=%03.3f</format>
+			</chunk>
+			
+			<chunk>
+				<node>/orientation/heading-deg</node>
+				<name>heading</name>
+				<type>float</type>
+				<format>yaw=%03.3f</format>
+			</chunk>
+			
+			<!--rates-->
+ 			<chunk>
+				<node>/orientation/roll-rate-degps</node>
+				<name>roll_rate</name>
+				<type>float</type>
+				<format>rate-roll=%03.3f</format>
+			</chunk>
+			
+			<chunk>
+				<node>/orientation/pitch-rate-degps</node>
+				<name>pitch_rate</name>
+				<type>float</type>
+				<format>rate-pitch=%03.3f</format>
+			</chunk>
+			
+			<chunk>
+				<node>/orientation/yaw-rate-degps</node>
+				<name>yaw_rate</name>
+				<type>float</type>
+				<format>rate-yaw=%03.3f</format>
+			</chunk>
+		</output>
+	</generic>
+</PropertyList>
