@@ -12,15 +12,14 @@
 #    You should have received a copy of the GNU General Public License
 #    along with fg-pycomm.  If not, see <http://www.gnu.org/licenses/>.
 
-def publish(n):
-    pass
-
+import socket
 import os.path
 import json
+import sys
 
 def detect_own_ip():
     #find out our own ip
-    import socket
+    
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     
     try:
@@ -32,6 +31,41 @@ def detect_own_ip():
         del s
     print ('own ip address: ' + client)
     return client
+
+import sibsau_ap
+def publish(cfg):
+    try:
+        cfg['name']
+    except:
+        print('No publisher name given')
+        return
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    own_ip = detect_own_ip()
+    try:
+        pub_port = int(sibsau_ap.global_cfg['ipc_udp_starting_port'])
+    except:
+        print('Global config has no field: "ipc_udp_starting_port". Failed to create publisher')
+    while True:
+        try:
+            s.bind((own_ip, pub_port))
+            break
+        except:
+            pub_port+=1
+    print('Module ' + cfg['name'] + ' managed to bind request port number ' + str(pub_port) )
+    pub_cfg = { 
+               "name":          cfg['name'],
+               "request_port":  pub_port
+              }    
+    cfg_filename = sibsau_ap.global_cfg['tmp_files_folder'] + '/publisher_' + cfg['name'] + '.json'
+    print('Creating publisher file: "' + cfg_filename + '"')
+    try:
+        file_obj =  open(cfg_filename, 'w')
+        cfg_file = json.dumps(pub_cfg)
+        file_obj.write(cfg_file)   
+    except:
+        print('Publisher file write failed with error:\n\t' + str(sys.exc_info()))
+           
+        
 
 
 def subscribe(cfg):

@@ -12,6 +12,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with sibsau-ap.  If not, see <http://www.gnu.org/licenses/>.
 
+global_cfg = {}
+
 import json, sys, os
 from optparse import OptionParser
 parser = OptionParser()
@@ -74,3 +76,12 @@ for the_file in os.listdir(tmp_files_folder):
     except:
         print ('Error occured while removing files:\n\t' + str(sys.exc_info()) )
 print ('\tdone.')                  
+
+import ipc
+pub_cfg = {
+           'name': "testPub"
+           }
+try:
+    ipc.publish(pub_cfg)
+except:
+    pass

@@ -1,4 +1,5 @@
 {
-	"config_files": {"fg_export_cfg":"fg2comm.xml"},
-	"tmp_files_folder": "/tmp/sibsau-ap"	
+	"config_files": 			{"fg_export_cfg":"fg2comm.xml"},
+	"tmp_files_folder": 		"/tmp/sibsau-ap/",
+	"ipc_udp_starting_port":		30000
 }
