@@ -14,7 +14,7 @@
 
 global_cfg = {}
 
-import json, sys, os
+import json, sys, os, ipc
 from optparse import OptionParser
 parser = OptionParser()
 parser.add_option("-c", "--config", dest="settings_path", help="set path to config files folder (mandatory).")
@@ -62,7 +62,7 @@ else:
         os.makedirs(tmp_files_folder)
         print('Temporary files folder create success.')
     except:
-        print('Critical: failed to create dir. Exiting.')
+        print('Critical: failed to create temp dir. Exiting.')
         sys.exit(0)  
         
 #Clean-up tmp folder
@@ -77,11 +77,8 @@ for the_file in os.listdir(tmp_files_folder):
         print ('Error occured while removing files:\n\t' + str(sys.exc_info()) )
 print ('\tdone.')                  
 
-import ipc
-pub_cfg = {
-           'name': "testPub"
-           }
-try:
-    ipc.publish(pub_cfg)
-except:
-    pass
+import fg2ap
+fg2ap.start(global_cfg)
+
+import ap_core
+ap_core.start(global_cfg)
