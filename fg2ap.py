@@ -16,7 +16,7 @@ import socket
 from multiprocessing import Process
 import ipc
 import os
-
+import math
 
 
 def fg_proc(cfg):
@@ -33,7 +33,6 @@ def fg_proc(cfg):
     print('fg incoming port is ' + str(port))
     fg_string = 'fgfs --generic=socket,out,10,localhost,'+str(port)+',udp,fg2ap &'
     os.system(fg_string)
-    from datetime import datetime
     q = {}
     while True:
         packet, addr = sock.recvfrom(1024) # buffer size is 1024 bytes
@@ -41,8 +40,26 @@ def fg_proc(cfg):
         for elem in data:
             name, val = elem.split('=')
             q[name]=float(val)
-        fg_ipc.post(q)
-
+        ground_speed = math.sqrt(q['speed-east']*q['speed-east'] + q['speed-north']*q['speed-north'])
+        state = {
+                 'altitude':        q['alt'],
+                 'ground-elev':     q['ground-elev'],
+                 'lat':             q['lat'],
+                 'lon':             q['lon'],
+                 'roll':            q['roll'],
+                 'pitch':           q['pitch'],
+                 'yaw':             q['yaw'],
+                 'rate-roll':       q['rate-roll'],
+                 'rate-pitch':      q['rate-pitch'],
+                 'rate-yaw':        q['rate-yaw'],
+                 'vert-speed':      q['vert-speed'],
+                 'ground_speed':    ground_speed,
+                 'airspeer':        q['airspeed'],  
+                 'x-accel':         q['x-accel'],
+                 'y-accel':         q['y-accel'],
+                 'z-accel':         q['z-accel'],
+                 }
+        fg_ipc.post(state)
 
 def start(cfg):
     p = Process(target=fg_proc, args=(cfg,))
